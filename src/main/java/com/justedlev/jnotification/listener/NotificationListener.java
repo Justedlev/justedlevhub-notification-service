@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class NotificationListener {
-    @KafkaListener(topics = "oowxuqiu-default")
+    @KafkaListener(topics = "${jnotification.queue.email-topic}")
     public void handle(A obj) {
         log.info("Received data: {}", obj);
     }

@@ -12,3 +12,6 @@ spring:
         mechanism: SCRAM-SHA-512
         jaas:
           config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${CLOUDKARAFKA_USERNAME}" password="${CLOUDKARAFKA_PASSWORD}";
+jnotification:
+  queue:
+    email-topic: oowxuqiu-email-notification
