@@ -1,5 +1,6 @@
 package com.justedlev.notification.service.impl;
 
+import com.justedlev.notification.component.MailTemplateCreatorComponent;
 import com.justedlev.notification.component.MailTemplateSenderComponent;
 import com.justedlev.notification.model.request.CreateMailTemplateRequest;
 import com.justedlev.notification.model.request.SendMailTemplateRequest;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class MailServiceImpl implements MailService {
     private final MailTemplateSenderComponent mailTemplateSenderComponent;
+    private final MailTemplateCreatorComponent mailTemplateCreatorComponent;
 
     @Override
     public SendMailTemplateResponse sendFromTemplate(SendMailTemplateRequest request) {
@@ -21,6 +23,6 @@ public class MailServiceImpl implements MailService {
 
     @Override
     public MailTemplateResponse createTemplate(CreateMailTemplateRequest request) {
-        return null;
+        return mailTemplateCreatorComponent.create(request);
     }
 }

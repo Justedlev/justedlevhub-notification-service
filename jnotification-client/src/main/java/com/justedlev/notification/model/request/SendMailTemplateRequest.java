@@ -22,5 +22,8 @@ public class SendMailTemplateRequest {
     @NotNull
     @NotEmpty
     private String templateName;
+    @NotNull
+    @NotEmpty
+    private String subject;
     private Map<String, String> content;
 }

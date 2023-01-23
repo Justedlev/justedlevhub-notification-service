@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
 public class CreateMailTemplateRequest {
     @NotNull
     @NotEmpty
-    private String templateName;
+    private String name;
     @NotNull
     @NotEmpty
     private String template;

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @EnableRabbit
 @Configuration
-public class RabbitMQConsumerConfiguration {
+public class BeansConfiguration {
     @Bean
     public MessageConverter messageConverter() {
         return new Jackson2JsonMessageConverter();
