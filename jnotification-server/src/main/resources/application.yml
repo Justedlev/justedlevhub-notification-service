@@ -12,26 +12,13 @@ spring:
     open-in-view: false
     show-sql: false
     hibernate:
-      ddl-auto: none
-  kafka:
-    bootstrap-servers: ${CLOUDKARAFKA_HOSTS}
-    producer:
-      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
-    consumer:
-      group-id: ${CLOUDKARAFKA_USERNAME}-consumers
-      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-    properties:
-      spring:
-        json:
-          value:
-            default:
-              type: java.lang.Object
-      security:
-        protocol: SASL_SSL
-      sasl:
-        mechanism: SCRAM-SHA-512
-        jaas:
-          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="${CLOUDKARAFKA_USERNAME}" password="${CLOUDKARAFKA_PASSWORD}";
+      ddl-auto: update
+  rabbitmq:
+    host: ${CLOUDAMQP_HOST}
+    port: ${CLOUDAMQP_PORT}
+    password: ${CLOUDAMQP_PASSWORD}
+    username: ${CLOUDAMQP_USERNAME}
+    virtual-host: ${CLOUDAMQP_VIRTUAL_HOST}
   mail:
     protocol: smtp
     host: smtp.gmail.com
@@ -50,9 +37,10 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+cloudamqp:
+  queue:
+    send-template-mail: send-template-mail-queue
 jnotification:
   service:
     name: ${spring.application.name}
     email: ${SERVICE_MAIL_EMAIL}
-  queue:
-    email-topic: oowxuqiu-email-notification

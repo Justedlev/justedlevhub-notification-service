@@ -1,16 +1,16 @@
 package com.justedlev.notification.listener;
 
-import com.justedlev.notification.model.TemplateMailRequest;
+import com.justedlev.notification.model.SendTemplateMailRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
 public class NotificationListener {
-    @KafkaListener(topics = "${jnotification.queue.email-topic}")
-    public void handle(TemplateMailRequest request) {
+    @RabbitListener(queues = "${cloudamqp.queue.send-template-mail}")
+    public void sendTemplateMail(@Payload SendTemplateMailRequest request) {
         log.info("Received data: {}", request);
     }
-
 }

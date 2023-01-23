@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TemplateMailRequest {
+public class SendTemplateMailRequest {
     private String recipient;
     private String templateName;
     private Map<String, String> content;
