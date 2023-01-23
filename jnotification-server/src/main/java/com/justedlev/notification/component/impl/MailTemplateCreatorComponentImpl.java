@@ -1,12 +1,12 @@
 package com.justedlev.notification.component.impl;
 
-import com.justedlev.common.DefaultModelMapper;
 import com.justedlev.notification.component.MailTemplateCreatorComponent;
 import com.justedlev.notification.model.request.CreateMailTemplateRequest;
 import com.justedlev.notification.model.response.MailTemplateResponse;
 import com.justedlev.notification.repository.MailTemplateRepository;
 import com.justedlev.notification.repository.entity.MailTemplate;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityExistsException;
@@ -15,7 +15,7 @@ import javax.persistence.EntityExistsException;
 @RequiredArgsConstructor
 public class MailTemplateCreatorComponentImpl implements MailTemplateCreatorComponent {
     private final MailTemplateRepository mailTemplateRepository;
-    private final DefaultModelMapper defaultMapper;
+    private final ModelMapper defaultMapper;
 
     @Override
     public MailTemplateResponse create(CreateMailTemplateRequest request) {

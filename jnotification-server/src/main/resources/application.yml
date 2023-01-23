@@ -1,3 +1,7 @@
+server:
+  port: 0
+  servlet:
+    context-path: /api
 spring:
   application:
     name: jnotification-service
@@ -37,6 +41,12 @@ spring:
           connectiontimeout: 5000
           timeout: 5000
           writetimeout: 5000
+eureka:
+  instance:
+    instance-id: ${spring.application.name}:${random.uuid}
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
 cloudamqp:
   host: ${CLOUDAMQP_HOST}
   port: ${CLOUDAMQP_PORT}

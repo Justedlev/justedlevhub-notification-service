@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/mail")
+@RequestMapping("/v1/mail")
 @RequiredArgsConstructor
 @Validated
-public class MailController {
+public class V1MailController {
     private final MailService mailService;
 
     @PostMapping(value = "/create-template")
