@@ -53,7 +53,7 @@ cloudamqp:
   password: ${CLOUDAMQP_PASSWORD}
   username: ${CLOUDAMQP_USERNAME}
   virtual-host: ${CLOUDAMQP_VIRTUAL_HOST}
-  queue:
+  queues:
     send-template-mail: send-template-mail-queue
 jnotification:
   service:

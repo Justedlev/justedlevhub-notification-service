@@ -1,6 +1,6 @@
 package com.justedlev.notification.listener;
 
-import com.justedlev.notification.component.MailTemplateSenderComponent;
+import com.justedlev.notification.component.MailTemplateComponent;
 import com.justedlev.notification.model.request.SendMailTemplateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class NotificationListener {
-    private final MailTemplateSenderComponent mailTemplateSenderComponent;
+    private final MailTemplateComponent mailTemplateComponent;
 
-    @RabbitListener(queues = "${cloudamqp.queue.send-template-mail}")
+    @RabbitListener(queues = "${cloudamqp.queues.send-template-mail}")
     public void sendTemplateMail(@Payload SendMailTemplateRequest request) {
-        mailTemplateSenderComponent.send(request);
+        mailTemplateComponent.send(request);
     }
 }

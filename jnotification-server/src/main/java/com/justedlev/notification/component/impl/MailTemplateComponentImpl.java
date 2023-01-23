@@ -1,14 +1,16 @@
 package com.justedlev.notification.component.impl;
 
-import com.justedlev.notification.component.MailTemplateSenderComponent;
+import com.justedlev.notification.component.MailSenderComponent;
+import com.justedlev.notification.component.MailTemplateComponent;
+import com.justedlev.notification.component.command.SendMailCommand;
+import com.justedlev.notification.model.request.CreateMailTemplateRequest;
 import com.justedlev.notification.model.request.SendMailTemplateRequest;
+import com.justedlev.notification.model.response.MailTemplateResponse;
 import com.justedlev.notification.model.response.SendMailTemplateResponse;
-import com.justedlev.notification.properties.ServiceProperties;
 import com.justedlev.notification.repository.MailTemplateRepository;
+import com.justedlev.notification.repository.entity.MailTemplate;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,25 +18,36 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
-public class MailTemplateSenderComponentImpl implements MailTemplateSenderComponent {
+public class MailTemplateComponentImpl implements MailTemplateComponent {
+    private final MailSenderComponent mailSenderComponent;
     private final MailTemplateRepository mailTemplateRepository;
-    private final ServiceProperties serviceProperties;
-    private final JavaMailSender emailSender;
+    private final ModelMapper defaultMapper;
+
+    @Override
+    public MailTemplateResponse create(CreateMailTemplateRequest request) {
+        return mailTemplateRepository.findByName(request.getName())
+                .map(current -> defaultMapper.map(current, MailTemplateResponse.class))
+                .orElse(createTemplate(request));
+    }
+
+    private MailTemplateResponse createTemplate(CreateMailTemplateRequest request) {
+        var entity = defaultMapper.map(request, MailTemplate.class);
+
+        return defaultMapper.map(mailTemplateRepository.save(entity), MailTemplateResponse.class);
+    }
 
     @Override
     public SendMailTemplateResponse send(SendMailTemplateRequest request) {
         var mailTemplate = mailTemplateRepository.findByName(request.getTemplateName())
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Template %s not exists", request.getTemplateName())));
-        var simpleMailMessage = new SimpleMailMessage();
-        simpleMailMessage.setFrom(serviceProperties.getEmail());
-        simpleMailMessage.setTo(request.getRecipient());
-        simpleMailMessage.setSubject(request.getSubject());
-        simpleMailMessage.setText(createBody(mailTemplate.getTemplate(), request.getContent()));
-        emailSender.send(simpleMailMessage);
-        log.info("Mail send successfully completed");
+        var sendMailCommand = SendMailCommand.builder()
+                .subject(request.getSubject())
+                .recipient(request.getRecipient())
+                .body(createBody(mailTemplate.getTemplate(), request.getContent()))
+                .build();
+        mailSenderComponent.send(sendMailCommand);
 
         return SendMailTemplateResponse.builder()
                 .recipient(request.getRecipient())
