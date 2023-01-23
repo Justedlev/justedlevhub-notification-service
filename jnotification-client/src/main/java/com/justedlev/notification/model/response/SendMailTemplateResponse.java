@@ -1,4 +1,4 @@
-package com.justedlev.notification.model;
+package com.justedlev.notification.model.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SendTemplateMailRequest {
+public class SendMailTemplateResponse {
     private String recipient;
     private String templateName;
     private Map<String, String> content;

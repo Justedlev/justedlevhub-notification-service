@@ -14,11 +14,11 @@ spring:
     hibernate:
       ddl-auto: update
   rabbitmq:
-    host: ${CLOUDAMQP_HOST}
-    port: ${CLOUDAMQP_PORT}
-    password: ${CLOUDAMQP_PASSWORD}
-    username: ${CLOUDAMQP_USERNAME}
-    virtual-host: ${CLOUDAMQP_VIRTUAL_HOST}
+    host: ${cloudamqp.host}
+    port: ${cloudamqp.port}
+    password: ${cloudamqp.password}
+    username: ${cloudamqp.username}
+    virtual-host: ${cloudamqp.virtual-host}
   mail:
     protocol: smtp
     host: smtp.gmail.com
@@ -38,6 +38,11 @@ spring:
           timeout: 5000
           writetimeout: 5000
 cloudamqp:
+  host: ${CLOUDAMQP_HOST}
+  port: ${CLOUDAMQP_PORT}
+  password: ${CLOUDAMQP_PASSWORD}
+  username: ${CLOUDAMQP_USERNAME}
+  virtual-host: ${CLOUDAMQP_VIRTUAL_HOST}
   queue:
     send-template-mail: send-template-mail-queue
 jnotification:

@@ -1,13 +1,10 @@
 package com.justedlev.notification.repository.entity;
 
-import com.justedlev.notification.repository.entity.base.BaseEntity;
+import com.justedlev.common.entity.BaseEntity;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Builder
@@ -21,6 +18,7 @@ import java.util.Objects;
 public class MailTemplate extends BaseEntity {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
     @Column(name = "name")
