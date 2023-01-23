@@ -1,6 +1,6 @@
 package com.justedlev.notification.component.impl;
 
-import com.justedlev.notification.component.MailSenderComponent;
+import com.justedlev.notification.component.MailTemplateSenderComponent;
 import com.justedlev.notification.model.request.SendMailTemplateRequest;
 import com.justedlev.notification.model.response.SendMailTemplateResponse;
 import com.justedlev.notification.properties.ServiceProperties;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class MailSenderComponentImpl implements MailSenderComponent {
+public class MailTemplateSenderComponentImpl implements MailTemplateSenderComponent {
     private final MailTemplateRepository mailTemplateRepository;
     private final ServiceProperties serviceProperties;
     private final JavaMailSender emailSender;
