@@ -79,8 +79,8 @@
                         </manifest>
                         <manifestEntries>
                             <Created-By>Justedlev {-...-}</Created-By>
-                            <Implementation-Title>${description}</Implementation-Title>
-                            <Implementation-Version>${version}</Implementation-Version>
+                            <Implementation-Title>${project.description}</Implementation-Title>
+                            <Implementation-Version>${project.version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
