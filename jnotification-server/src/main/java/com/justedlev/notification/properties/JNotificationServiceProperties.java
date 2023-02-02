@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 @Data
 @ConfigurationPropertiesScan
 @ConfigurationProperties(prefix = "jnotification.service")
-public class ServiceProperties {
+public class JNotificationServiceProperties {
     private String name;
     private String email;
 }

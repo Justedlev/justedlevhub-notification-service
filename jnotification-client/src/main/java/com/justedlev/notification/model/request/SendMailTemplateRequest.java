@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Map;
@@ -21,9 +22,11 @@ public class SendMailTemplateRequest {
     private String recipient;
     @NotNull
     @NotEmpty
+    @NotBlank
     private String templateName;
     @NotNull
     @NotEmpty
+    @NotBlank
     private String subject;
     private Map<String, String> content;
 }
