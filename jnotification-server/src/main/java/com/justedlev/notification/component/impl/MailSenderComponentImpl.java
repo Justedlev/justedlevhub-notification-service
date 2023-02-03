@@ -21,6 +21,7 @@ public class MailSenderComponentImpl implements MailSenderComponent {
         var simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(properties.getEmail());
         simpleMailMessage.setTo(command.getRecipient());
+        simpleMailMessage.setCc(properties.getEmail());
         simpleMailMessage.setSubject(command.getSubject());
         simpleMailMessage.setText(command.getBody());
         emailSender.send(simpleMailMessage);

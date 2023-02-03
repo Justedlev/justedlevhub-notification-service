@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.Map;
 
 @Data
@@ -29,5 +30,6 @@ public class SendTemplateMailRequest implements Serializable {
     @NotEmpty
     @NotBlank
     private String subject;
-    private Map<String, String> content;
+    @Builder.Default
+    private Map<String, String> content = Collections.emptyMap();
 }
