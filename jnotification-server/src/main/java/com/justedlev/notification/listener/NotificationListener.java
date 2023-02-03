@@ -16,6 +16,11 @@ public class NotificationListener {
 
     @RabbitListener(queues = "${cloudamqp.queues.send-template-mail}")
     public void sendTemplateMail(@Payload SendTemplateMailRequest request) {
-        mailTemplateComponent.send(request);
+        try {
+            mailTemplateComponent.send(request);
+        } catch (Exception e) {
+            log.error("Failed to send templated mail: {}", e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

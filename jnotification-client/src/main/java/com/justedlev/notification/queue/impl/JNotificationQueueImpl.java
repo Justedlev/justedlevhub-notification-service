@@ -17,11 +17,6 @@ public class JNotificationQueueImpl implements JNotificationQueue {
 
     @Override
     public void sendEmail(SendTemplateMailRequest request) {
-        try {
-            amqpTemplate.convertAndSend(properties.getSendTemplateMail(), request);
-        } catch (Exception e) {
-            log.error("Failed to send templated mail: {}", e.getMessage());
-            e.printStackTrace();
-        }
+        amqpTemplate.convertAndSend(properties.getSendTemplateMail(), request);
     }
 }
