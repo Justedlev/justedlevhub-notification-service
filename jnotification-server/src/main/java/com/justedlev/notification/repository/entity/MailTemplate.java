@@ -21,9 +21,11 @@ public class MailTemplate extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private Long id;
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
-    @Column(name = "template")
+    @Column(name = "subject")
+    private String subject;
+    @Column(name = "template", columnDefinition = "nvarchar(max)")
     private String template;
 
     @Override

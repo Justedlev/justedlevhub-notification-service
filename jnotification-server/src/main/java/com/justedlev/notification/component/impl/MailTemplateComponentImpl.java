@@ -10,11 +10,13 @@ import com.justedlev.notification.model.response.TemplateMailResponse;
 import com.justedlev.notification.repository.MailTemplateRepository;
 import com.justedlev.notification.repository.entity.MailTemplate;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 @Component
@@ -42,8 +44,11 @@ public class MailTemplateComponentImpl implements MailTemplateComponent {
         var mailTemplate = mailTemplateRepository.findByName(request.getTemplateName())
                 .orElseThrow(() -> new EntityNotFoundException(
                         String.format("Template %s not exists", request.getTemplateName())));
+        var subject = Optional.ofNullable(request.getSubject())
+                .filter(StringUtils::isNotBlank)
+                .orElse(mailTemplate.getSubject());
         var sendMailCommand = SendMailCommand.builder()
-                .subject(request.getSubject())
+                .subject(subject)
                 .recipient(request.getRecipient())
                 .body(createBody(mailTemplate.getTemplate(), request.getContent()))
                 .build();
