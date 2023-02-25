@@ -19,8 +19,7 @@ public class NotificationListener {
         try {
             mailTemplateComponent.send(request);
         } catch (Exception e) {
-            log.error("Failed to send templated mail: {}", e.getMessage());
-            e.printStackTrace();
+            log.error("Failed to send templated mail from payload: {}", request, e);
         }
     }
 }
