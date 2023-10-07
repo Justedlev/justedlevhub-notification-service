@@ -9,8 +9,8 @@
     </parent>
 
     <artifactId>jh-notifications-service</artifactId>
-    <name>notifications.justedlev.hub</name>
     <version>1.0.0-SNAPSHOT</version>
+    <name>notifications.justedlev.hub</name>
 
     <properties>
         <java.version>17</java.version>
