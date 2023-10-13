@@ -6,7 +6,7 @@ services:
     container_name: notification-service
     env_file:
       - "C:\Users\edwar\OneDrive\intellij\env\notification-docker.env"
-    image: justedlev/notification-service:1.0
+    image: justedlev/notification-service:1.0.0
     ports:
       - "0:8080"
     depends_on:
