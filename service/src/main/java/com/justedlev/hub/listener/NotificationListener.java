@@ -1,7 +1,7 @@
 package com.justedlev.hub.listener;
 
 import com.justedlev.hub.model.request.SendNotificationRequest;
-import com.justedlev.hub.service.NotificationService;
+import com.justedlev.hub.service.TemplateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -12,14 +12,16 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class NotificationListener {
-    private final NotificationService notificationService;
+    private final TemplateService templateService;
 
     @RabbitListener(queues = "${cloudamqp.queue.send-template-mail}")
     public void sendTemplateMail(@Payload SendNotificationRequest request) {
         try {
-            notificationService.sendFromTemplate(request);
-        } catch (Exception e) {
-            log.error("Failed to send templated mail from payload: {}", request, e);
+            templateService.sendFromTemplate(request);
+        } catch (Exception ex) {
+            log.error("Failed to send templated notification: {}", request.getTemplateName());
+            log.debug("Payload: {}", request);
+            log.trace(ex.getMessage(), ex);
         }
     }
 }

@@ -46,8 +46,8 @@ public class SecurityConfiguration {
                                 "/swagger-ui.html",
                                 "/webjars/**"
                         ).permitAll()
-                        .requestMatchers(HttpMethod.GET, "/v1/notifications").hasAnyRole("user", "admin")
-                        .requestMatchers(HttpMethod.POST, "/v1/notifications").hasRole("admin")
+                        .requestMatchers(HttpMethod.GET, "/v1/templates").hasAnyRole("user", "admin")
+                        .requestMatchers(HttpMethod.POST, "/v1/templates").hasRole("admin")
                         .anyRequest().authenticated()
                 )
                 .build();

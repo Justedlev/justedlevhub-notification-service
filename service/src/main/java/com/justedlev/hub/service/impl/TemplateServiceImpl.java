@@ -1,47 +1,45 @@
 package com.justedlev.hub.service.impl;
 
-import com.justedlev.hub.component.NotificationTemplateManager;
+import com.justedlev.hub.component.TemplateManager;
 import com.justedlev.hub.component.NotificationUtilities;
 import com.justedlev.hub.component.command.NotificationCommand;
 import com.justedlev.hub.model.request.CreateTemplateRequest;
 import com.justedlev.hub.model.request.SendNotificationRequest;
 import com.justedlev.hub.model.response.SentTemplateResponse;
 import com.justedlev.hub.model.response.TemplateResponse;
-import com.justedlev.hub.repository.NotificationTemplateRepository;
+import com.justedlev.hub.repository.TemplateRepository;
 import com.justedlev.hub.repository.NotificationTypeRepository;
 import com.justedlev.hub.repository.entity.NotificationTemplate;
-import com.justedlev.hub.service.NotificationService;
+import com.justedlev.hub.service.TemplateService;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class NotificationServiceImpl implements NotificationService {
-    private final NotificationTemplateRepository notificationTemplateRepository;
-    private final NotificationTemplateManager notificationTemplateManager;
+public class TemplateServiceImpl implements TemplateService {
+    private final TemplateRepository templateRepository;
+    private final TemplateManager templateManager;
     private final NotificationTypeRepository notificationTypeRepository;
     private final NotificationUtilities notificationUtilities;
     private final ModelMapper mapper;
 
     @Override
-    public List<TemplateResponse> getAll() {
-        return notificationTemplateRepository.findAll()
-                .stream()
-                .map(nt -> mapper.map(nt, TemplateResponse.class))
-                .toList();
+    public Page<TemplateResponse> findPage(Pageable pageable) {
+        return templateRepository.findAll(pageable).map(nt -> mapper.map(nt, TemplateResponse.class));
     }
 
     @Override
     public SentTemplateResponse sendFromTemplate(SendNotificationRequest request) {
         if (notificationTypeRepository.notExistsByLabel(request.getType())) throw new EntityNotFoundException();
 
-        var mailTemplate = notificationTemplateRepository.getByName(request.getTemplateName());
+        var mailTemplate = templateRepository.getByName(request.getTemplateName());
         var subject = Optional.ofNullable(request.getSubject())
                 .filter(StringUtils::isNotBlank)
                 .orElseGet(mailTemplate::getSubject);
@@ -52,7 +50,7 @@ public class NotificationServiceImpl implements NotificationService {
                 .body(body)
                 .type(request.getType())
                 .build();
-        notificationTemplateManager.assign(command);
+        templateManager.assign(command);
 
         return SentTemplateResponse.builder()
                 .recipient(request.getRecipient())
@@ -61,10 +59,22 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public TemplateResponse createTemplate(CreateTemplateRequest request) {
+    public TemplateResponse create(CreateTemplateRequest request) {
         var template = mapper.map(request, NotificationTemplate.class);
-        notificationTemplateRepository.save(template);
+        templateRepository.save(template);
 
         return mapper.map(request, TemplateResponse.class);
+    }
+
+    @Override
+    public void delete(String name) {
+        templateRepository.deleteByName(name);
+    }
+
+    @Override
+    public TemplateResponse getByName(String name) {
+        var template = templateRepository.getByName(name);
+
+        return mapper.map(template, TemplateResponse.class);
     }
 }

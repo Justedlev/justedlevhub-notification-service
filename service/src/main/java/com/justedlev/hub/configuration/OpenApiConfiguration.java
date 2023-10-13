@@ -18,72 +18,50 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         name = "Justedlev",
                         email = "justedlevhub@gmail.com"
                 ),
-                description = "Documentation",
-                title = "OpenApi specification - Justedlevhub",
-                version = "1.0",
+                description = "Notification Service APIs Documentation",
+                title = "OpenApi specification - Justedlevhub Notification APIs",
+                version = "v1",
                 license = @License(
                         name = "Apache 2.0",
-                        url = "https://springdoc.org"
-                ),
-                termsOfService = "Terms of service"
+                        url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
+                )
         ),
         servers = {
                 @Server(
-                        description = "Local ENV",
-                        url = "http://localhost:8080"
+                        description = "Gateway ENV",
+                        url = "${configuration.service.url}"
                 ),
         },
         security = {
-                @SecurityRequirement(
-                        name = "bearerAuth"
-                )
+                @SecurityRequirement(name = "OAuth2"),
+                @SecurityRequirement(name = "bearer-auth"),
         }
 )
 @SecurityScheme(
-        name = "bearerAuth",
-        description = "JWT auth description",
+        name = "OAuth2",
+        description = "Authentication by OAuth2 protocol",
         scheme = "bearer",
         type = SecuritySchemeType.OAUTH2,
         bearerFormat = "JWT",
-        in = SecuritySchemeIn.HEADER,
+        in = SecuritySchemeIn.COOKIE,
         flows = @OAuthFlows(
                 password = @OAuthFlow(
-                        tokenUrl = "http://localhost:9321/realms/justedlevhub/protocol/openid-connect/token",
-                        refreshUrl = "http://localhost:9321/realms/justedlevhub/protocol/openid-connect/token"
+                        tokenUrl = "${keycloak.token-uri}",
+                        refreshUrl = "${keycloak.token-uri}"
                 ),
                 clientCredentials = @OAuthFlow(
-                        tokenUrl = "http://localhost:9321/realms/justedlevhub/protocol/openid-connect/token",
-                        refreshUrl = "http://localhost:9321/realms/justedlevhub/protocol/openid-connect/token"
+                        tokenUrl = "${keycloak.token-uri}",
+                        refreshUrl = "${keycloak.token-uri}"
                 )
         )
 )
+@SecurityScheme(
+        name = "bearer-auth",
+        description = "Authentication by JWT",
+        scheme = "bearer",
+        type = SecuritySchemeType.HTTP,
+        bearerFormat = "JWT",
+        in = SecuritySchemeIn.HEADER
+)
 public class OpenApiConfiguration {
-//    @Bean
-//    public OpenAPI customOpenAPI() {
-//        final var securitySchemeName = "bearer-token";
-//
-//        return new OpenAPI()
-//                .addSecurityItem(new SecurityRequirement()
-//                        .addList(securitySchemeName))
-//                .components(new Components()
-//                        .addSecuritySchemes(securitySchemeName, new SecurityScheme()
-//                                .name(securitySchemeName)
-//                                .type(SecurityScheme.Type.HTTP)
-//                                .scheme("bearer")
-//                                .bearerFormat("JWT")))
-//                .info(getInfo());
-//    }
-//
-//    private Info getInfo() {
-//        return new Info()
-//                .title("JAccount Service APIs")
-//                .version("0.0.1")
-//                .description("Justedlev Services APIs")
-//                .termsOfService("swagger.io/terms/")
-//                .license(getLicense());
-//    }
-//
-//    private License getLicense() {
-//        return new License().name("Apache 2.0").url("springdoc.org");
-//    }
 }
