@@ -78,7 +78,7 @@ eureka:
     instance-id: ${spring.application.name}
   client:
     service-url:
-      defaultZone: ${DISCOVERY_HOST}
+      defaultZone: ${SERVICE_REGISTRY}
 
 springdoc:
   swagger-ui:
