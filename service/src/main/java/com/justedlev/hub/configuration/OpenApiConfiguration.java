@@ -31,6 +31,10 @@ import io.swagger.v3.oas.annotations.servers.Server;
                         description = "Gateway ENV",
                         url = "${configuration.service.url}"
                 ),
+                @Server(
+                        description = "Local ENV",
+                        url = "http://localhost:8765/${spring.application.name}${server.servlet.context-path}"
+                ),
         },
         security = {
                 @SecurityRequirement(name = "OAuth2"),
