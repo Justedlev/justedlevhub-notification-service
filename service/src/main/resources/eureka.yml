@@ -1,0 +1,6 @@
+eureka:
+  instance:
+    instance-id: ${spring.application.name}
+  client:
+    service-url:
+      defaultZone: ${SERVICE_REGISTRY}

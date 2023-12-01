@@ -1,0 +1,9 @@
+keycloak:
+  issuer-uri: ${KEYCLOAK_ISSUER_URI}
+  jwk-set-uri: ${KEYCLOAK_JWKS_URI}
+  introspection-uri: ${KEYCLOAK_INTROSPECTION_ENDPOINT}
+  client-id: ${KEYCLOAK_CLIENT_ID}
+  client-secret: ${KEYCLOAK_CLIENT_SECRET}
+  jwt-converter:
+    role-claims: realm_access.roles,resource_access.account.roles
+    username-attribute: preferred_username
